@@ -1,0 +1,10 @@
+m = int(input())
+l1 = set(map(int, input().split()))
+n = int(input())
+l2 = set(map(int, input().split()))
+l3 = l1.intersection(l2)
+l4 = l1.union(l2)
+l = list(l4.difference(l3))
+l.sort()
+for i in l:
+    print(i) 
