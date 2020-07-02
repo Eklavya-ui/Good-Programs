@@ -1,0 +1,28 @@
+-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * 
+EXPLATION-->
+
+If the given matrix we assume that the matrix is n x m
+
+CASE 1 --> 4 corners with 2 neighbours =  4*2  =  8
+
+
+CASE 2 --> (n - 2) * 2  cells with 3 neighbours = (n - 2) * 2 * 3 = (n - 2) * 6  =  6
+
+
+CASE 3 --> (m - 2) * 2 cells with 3 neighbours = (m - 2) * 2 * 3 = (m - 2) * 6  =  6
+
+
+CASE 4 --> (n * m) - [4 + (n - 2) * 2 + (m - 2) * 2 ] cells with 4 neighbours = ((n * m) - (4 + (n - 2) * 2 + (m - 2) * 2 )) * 4   =  
+
+TOTAL = 8 + (n - 2) * 6 + (m - 2) * 6 + ((n * m) - (4 + (n - 2) * 2 + (m - 2) * 2 )) * 4
+
+-- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * -- * 
+CODE -->
+
+t = int(input())
+while t > 0:
+    l = list(map(int, input().split()))
+    n = l[0]
+    m = l[1]
+    print(8 + (n - 2) * 6 + (m - 2) * 6 + ((n * m) - (4 + (n - 2) * 2 + (m - 2) * 2 )) * 4)
+    t = t - 1
