@@ -1,0 +1,53 @@
+#####################  Code using Dequeue  ######################################## 
+
+from collections import deque
+def check(d):
+    while d:
+        big = d.popleft() if d[0]>d[-1] else d.pop()
+        if not d:
+            return "Yes"
+        if d[-1]>big or d[0]>big:
+            return "No"
+    
+for i in range(int(input())):
+    int(input())
+    d = deque(map(int,input().split()))
+    print(check(d))
+
+
+##############################################################################################
+
+#Code without using dequeue
+
+for t in range(int(input())):
+    input()
+    lst = [int(i) for i in input().split()]
+    min_list = lst.index(min(lst))
+    left = lst[:min_list]
+    right = lst[min_list+1:]
+    if left == sorted(left,reverse=True) and right == sorted(right):
+        print("Yes")
+    else:
+        print("No")
+
+
+
+##############################################################################################
+
+#Code without using Dequeue
+
+
+for _ in range(int(input())): 
+    m, l = int(input()), [int(x) for x in input().split()]
+    left = True
+    valid = True
+    
+    for x in range(1,m):
+        if left:
+            if l[x] > l[x-1]:
+                left = False
+        else:
+            if l[x] < l[x-1]:
+                valid = False
+    
+    print("Yes" if valid else "No")
