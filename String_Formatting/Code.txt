@@ -1,0 +1,33 @@
+def print_formatted(n):
+    width = len("{0:b}".format(n))
+    for i in range(1,n+1):
+        print("{0:{width}d} {0:{width}o} {0:{width}X} {0:{width}b}".format(i,width=width))
+
+if __name__ == '__main__':
+    n = int(input())
+    print_formatted(n)
+
+
+#########################################################################################################################################################
+
+
+from future import print_function
+
+st=int(raw_input())
+
+w=len(bin(st)[2:])
+
+for i in range(1,st+1):
+
+print (str(i).rjust(w,' '),str(oct(i)[1:]).rjust(w,' '),str(hex(i)[2:].upper()).rjust(w,' '),str(bin(i)[2:]).rjust(w,' '),sep=' ')
+
+
+##########################################################################################################################################################
+
+n = int(input())
+spacing = len(bin(n)[2:])      ####  Gives Binary value, due to bin(n) gives binary value assume 0b10101 so we slice the string to get 10101
+
+for i in range(1,n+1):
+    print(str(i),str(oct(i)[2:]).rjust(spacing, ' '),str(hex(i)[2:].upper()).rjust(spacing, ' '),str(bin(i)[2:]).rjust(spacing, ' '))
+
+
