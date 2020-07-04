@@ -1,0 +1,23 @@
+## My Logic Code
+
+
+n , m = map(int, input().split())
+c = 1
+for i in range(n):
+    if i == n//2:
+        print('WELCOME'.center(m,'-'))
+    elif i < n//2:
+        print(('.|.'*c).center(m,'-'))
+        c += 2
+    else:
+        c -= 2
+        print(('.|.'*c).center(m,'-'))
+        
+
+###############################################################################
+###  Optimized Code
+
+
+n, m = map(int,input().split())
+pattern = [('.|.'*(2*i + 1)).center(m, '-') for i in range(n//2)]
+print('\n'.join(pattern + ['WELCOME'.center(m, '-')] + pattern[::-1]))
