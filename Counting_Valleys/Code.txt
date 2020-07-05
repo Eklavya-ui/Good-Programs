@@ -1,0 +1,12 @@
+n = int(input())
+s = input()
+level = 0
+val = 0
+for  move in s:
+    if move == "U":
+       level += 1
+       if level == 0:
+           val += 1
+    else:
+       level -= 1
+print(val)

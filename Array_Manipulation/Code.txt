@@ -1,0 +1,167 @@
+## PYTHON
+
+n, inputs = [int(n) for n in input().split(" ")]         
+list = [0]*(n+1)                                        
+for _ in range(inputs):                                 
+    x, y, incr = [int(n) for n in input().split(" ")]   
+    list[x-1] += incr                                   
+    if((y)<=len(list)): list[y] -= incr;                
+max = x = 0
+for i in list:
+   x=x+i;
+   if(max<x): max=x;
+print(max)
+
+
+
+#################################################################################################
+
+##  c++
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    long int N,K,p,q,sum,i,j,max=0,x=0;
+
+    cin>>N>>K;
+    long int *a=new long int[N+1]();
+
+    for(i=0;i<K;i++)
+    {
+        cin>>p>>q>>sum;
+        a[p]+=sum;
+        if((q+1)<=N) a[q+1]-=sum;
+    }
+
+    for(i=1;i<=N;i++)
+    {
+       x=x+a[i];
+       if(max<x) max=x;
+
+    }
+
+    cout<<max;
+    return 0;
+}
+
+
+
+
+###########################################################################################################
+
+
+## C
+
+int main() {
+    long long int n,k,i,max=0,x=0;
+    scanf("%lld %lld",&n,&k);
+    int *a=(int *)malloc(sizeof(int)*(n+1));
+    for(i=0;i<n;i++){
+      *(a+i)=0;
+    }
+    for(i=0;i<k;i++){
+        long long int c,d,g;
+        scanf("%lld %lld %lld",&c,&d,&g);
+        *(a+c)+=g;
+        if(d+1<=n){
+            *(a+d+1)-=g;
+        }
+        
+    }
+    for(i=1;i<=n;i++){
+        x+=*(a+i);
+        if(max<x){
+            max=x;
+        }
+    }
+    printf("%lld",max);
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    return 0;
+}
+
+
+#############################################################################################################
+
+##  C#
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+class Solution {
+    
+    static void Main(String[] args) {
+        
+        string[] inString = Console.ReadLine().Split(' ');
+        uint[] initParams = Array.ConvertAll(inString, UInt32.Parse);
+        uint n = initParams[0];
+        uint m = initParams[1];
+        
+        long[] numList = new long[n+1];
+        
+        for(int i=0; i<m; i++)
+        {
+            string[] opString = Console.ReadLine().Split(' ');
+            uint a = UInt32.Parse(opString[0]);
+            uint b = UInt32.Parse(opString[1]);
+            long k = long.Parse(opString[2]);
+            
+            numList[a] += k;
+            if(b+1 <= n) numList[b+1] -= k;
+        }
+        
+        long tempMax = 0;
+        long max = 0;
+        for(int i=1; i<=n; i++)
+        {
+            tempMax += numList[i]; 
+            if(tempMax > max) max = tempMax;
+        }
+        
+        Console.WriteLine(max.ToString());
+    }
+}
+
+
+
+###############################################################################################
+
+
+## JAVA
+
+Scanner scan = new Scanner(System.in);
+int n = scan.nextInt();
+int m = scan.nextInt();
+        
+//This will be the "difference array". The entry arr[i]=k indicates that arr[i] is exactly k units larger than arr[i-1]
+long[] arr = new long[n];
+        
+int lower;
+int upper;
+long sum;
+
+for(int i=0;i<n;i++) arr[i]=0;
+
+for(int i=0;i<m;i++){
+    lower=scan.nextInt();
+    upper=scan.nextInt();
+    sum=scan.nextInt();
+    arr[lower-1]+=sum;
+    if(upper<n) arr[upper]-=sum; 
+}
+        
+long max=0;
+long temp=0;
+
+for(int i=0;i<n;i++){
+    temp += arr[i];
+    if(temp> max) max=temp;
+}
+
+System.out.println(max);

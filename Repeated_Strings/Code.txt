@@ -1,0 +1,17 @@
+### METHOD -1
+
+s, n = input().strip(), int(input().strip())
+print(s.count("a") * (n // len(s)) + s[:n % len(s)].count("a"))
+
+
+### METHOD -2
+
+s = input()
+n = int(input())
+l = s.count('a')
+if n%len(s)==0:
+    print((n//len(s))*l)
+else:
+    x = (n//len(s))*l
+    y = (s[0:(n%len(s))]).count('a')
+    print(x + y)
