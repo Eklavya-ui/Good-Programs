@@ -1,0 +1,10 @@
+n,t = map(int, input().split())
+l = list(map(str,input().split()))
+t = t % n
+l = l[t:]+l[:t]
+print(' '.join(l))
+
+
+
+
+
