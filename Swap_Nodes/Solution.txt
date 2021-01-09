@@ -1,0 +1,320 @@
+
+class Node:
+    def __init__(self, d):
+        self.data = d
+    
+def build_tree(indexes):
+    f = lambda x: None if x == -1 else Node(x)
+    children = [list(map(f,x)) for x in indexes]
+    nodes = {n.data: n for n in filter(None, sum(children, []))}
+    nodes[1] = Node(1)
+    for idx, child_pair in enumerate(children):
+        nodes[idx+1].left = child_pair[0]
+        nodes[idx+1].right = child_pair[1]
+    return nodes[1]
+
+def inorder(root):
+    stack = []
+    curr = root
+    while stack or curr:
+        if curr:
+            stack.append(curr)
+            curr = curr.left
+        elif stack:
+            curr = stack.pop()
+            yield curr.data
+            curr = curr.right
+        
+def swap_nodes(indexes, queries):
+    root = build_tree(indexes)
+    for k in queries:
+        h = 1
+        q = deque([root])
+        while q:
+            for _ in range(len(q)):
+                node = q.popleft()
+                if h % k == 0:
+                    node.left, node.right = node.right, node.left
+                q += filter(None, (node.left, node.right))
+            h += 1
+        yield inorder(root)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Note that I also change a bit in the output format such that it serves my output structure. I change # fptr.write('\n'.join([' '.join(map(str, x)) for x in result])) to fptr.write('\n'.join(x for x in result))
+
+def swapNodes(indexes, queries):
+    #
+    # Write your code here.
+    #
+    import sys
+    sys.setrecursionlimit(10000)
+
+    def swap(cur, cur_d, d):
+            if cur.val!=-1 and cur!=None:
+                    if cur_d%d==0:
+                            # print('swap is happening...')
+                            cur.left, cur.right = cur.right, cur.left
+                    swap(cur.left, cur_d+1, d)
+                    swap(cur.right, cur_d+1, d)
+
+    def traverse_return(cur):
+            if (cur.left.val!=-1 and cur.left!=None) and (cur.right.val!=-1 and cur.right!=None):
+                    return traverse_return(cur.left)+str(cur.val)+' '+traverse_return(cur.right)
+            elif (cur.left.val!=-1 and cur.left!=None) and (cur.right.val==-1 or cur.right==None):
+                    return traverse_return(cur.left)+str(cur.val)+' '
+            elif (cur.left.val==-1 or cur.left==None) and (cur.right.val!=-1 and cur.right!=None):
+                    return str(cur.val)+' '+traverse_return(cur.right)
+            else:
+                    return str(cur.val)+' '
+
+
+    class Node():
+            def __init__(self, val = None):
+                    self.val = val
+                    self.left = None
+                    self.right = None
+    # Build the Tree
+    i = 0
+    root = Node(1)
+    q = [root]
+    while q and i<len(indexes):
+            cur = q.pop(0)
+            [l_val, r_val] = indexes[i]
+            cur.left, cur.right = Node(l_val), Node(r_val)
+            if l_val!=-1:
+                    q.append(cur.left)
+            if r_val!=-1:
+                    q.append(cur.right)
+            i+=1
+    # Show tree just built
+    # print('cur tree:')
+    # traverse(root)
+    result = []
+    while queries:
+            d = queries.pop(0)
+            # print(d)
+            swap(root, 1, d)
+            # traverse(root)
+            # ans = list(traverse_return(root).rstrip().split())
+            result.append(traverse_return(root).rstrip())
+            # print(result)
+    return result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#!/bin/python3
+
+import os
+import sys
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+#
+# Complete the swapNodes function below.
+#
+def swapNodes(indexes, queries):
+    #
+    # Write your code here.
+    #
+    #print(indexes, queries)
+    # First build Binary tree
+    print(indexes, queries)
+    root = Node(1)
+    queue = [root]
+
+    # Build Binary Tree
+    iIter = iter(indexes)
+    while len(queue) > 0:
+        cur = queue.pop(0)
+        elem = next(iIter, None)
+        if elem is None:
+            break
+        left, right = elem
+        if left != -1:
+            cur.left = Node(left)
+            queue.append(cur.left)
+        if right != -1:
+            cur.right = Node(right)
+            queue.append(cur.right)
+
+
+    def inorder(node, output):
+        stack = [node]
+        while len(stack) > 0:
+            cur = stack[-1]
+            if cur.left is not None and not cur.left.val in output:
+                stack.append(cur.left)
+                continue
+            cur = stack.pop(-1)
+            output.append(cur.val)
+            if cur.right is not None and not cur.right.val in output:
+                stack.append(cur.right)
+    # Start BFS
+    res = []
+    for query in queries:
+        queue = [(1, root)]
+        while len(queue) > 0:
+            curLevel, curNode = queue.pop(0)
+            if curLevel % query == 0:
+                # Swap
+                curNode.right, curNode.left = curNode.left, curNode.right
+            if curNode.left is not None:
+                queue.append((curLevel + 1, curNode.left))
+            if curNode.right is not None:
+                queue.append((curLevel + 1, curNode.right))
+
+        # Snapshot by dong inorder traversal
+        output = []
+        inorder(root, output)
+        res.append(output)
+    return res
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input())
+
+    indexes = []
+
+    for _ in range(n):
+        indexes.append(list(map(int, input().rstrip().split())))
+
+    queries_count = int(input())
+
+    queries = []
+
+    for _ in range(queries_count):
+        queries_item = int(input())
+        queries.append(queries_item)
+
+    result = swapNodes(indexes, queries)
+
+    fptr.write('\n'.join([' '.join(map(str, x)) for x in result]))
+    fptr.write('\n')
+
+    fptr.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Node:
+    def __init__(self, key, left=None, right=None):
+        self.key = key
+        self.left = left
+        self.right = right
+
+
+def build_tree(indexes):
+    root = Node(key=1)
+    stack = [root]
+    size = len(indexes)
+
+    while len(stack) > 0:
+        node = stack.pop(-1)
+        left_pos, right_pos = indexes[node.key]
+
+        if right_pos != -1 and right_pos <= size:
+            node.right = Node(key=right_pos)
+            stack.append(node.right)
+
+        if left_pos != -1 and left_pos <= size:
+            node.left = Node(key=left_pos)
+            stack.append(node.left)
+
+    return root
+
+
+def inorder_traversal(root):
+    result, stack = [], [root]
+    
+    while len(stack) > 0:
+        node = stack.pop(-1)
+        
+        if not isinstance(node, Node):
+            result.append(node)
+            continue
+        
+        if node.right: stack.append(node.right)
+        stack.append(node.key)
+        if node.left: stack.append(node.left)
+    
+    return result
+
+
+def swap_levels(root, query):
+    queue = [root]
+    height = 0
+    
+    while True:
+        nodes_count = len(queue)
+        if nodes_count == 0:
+            break
+
+        height += 1
+        while nodes_count > 0:
+            node = queue.pop(0)
+                        
+            if height % query == 0:
+                node.left, node.right = \
+                    node.right, node.left
+
+            if node.left: queue.append(node.left)      
+            if node.right: queue.append(node.right)
+            nodes_count -= 1
+
+    return root
+
+
+def swapNodes(indexes, queries):
+    if not indexes or not queries:
+        return None
+    
+    root = build_tree(indexes)
+    
+    res = []
+    for q in queries:
+        root = swap_levels(root, q)
+        res.append(inorder_traversal(root))
+        
+    return res
